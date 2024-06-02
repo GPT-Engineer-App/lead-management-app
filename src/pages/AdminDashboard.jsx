@@ -41,6 +41,9 @@ const AdminDashboard = () => {
       onSuccess: () => {
         closeModal();
       },
+      onError: (error) => {
+        console.error("Error adding user:", error);
+      },
     });
   };
 
