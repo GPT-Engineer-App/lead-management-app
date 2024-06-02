@@ -1,8 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 import { useQuery, useMutation, useQueryClient, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_PROJECT_URL;
-const supabaseKey = import.meta.env.VITE_SUPABASE_API_KEY;
+const supabaseUrl = 'https://aws-0-us-west-1.pooler.supabase.com';
+const supabaseKey = 'YOUR-SUPABASE-API-KEY'; // Replace with the actual API key
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 import React from "react";
