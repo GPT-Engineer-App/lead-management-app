@@ -42,7 +42,7 @@ const AdminDashboard = () => {
         closeModal();
       },
       onError: (error) => {
-        console.error("Error adding user:", error);
+        console.error("Error adding user:", error.message);
         alert("Failed to add user. Please try again.");
       },
     });
@@ -54,7 +54,7 @@ const AdminDashboard = () => {
         closeModal();
       },
       onError: (error) => {
-        console.error("Error updating user:", error);
+        console.error("Error updating user:", error.message);
         alert("Failed to update user. Please try again.");
       },
     });
@@ -107,7 +107,7 @@ const AdminDashboard = () => {
               {isLoading ? (
                 <Text>Loading...</Text>
               ) : error ? (
-                <Text>Error loading users</Text>
+                <Text>Error loading users: {error.message}</Text>
               ) : (
                 <VStack spacing={4} mt={4}>
                   {users.map((user) => (
