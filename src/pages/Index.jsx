@@ -1,13 +1,21 @@
 import { Container, Text, VStack, Button, Input, Box, Flex, Heading, Link } from "@chakra-ui/react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = () => {
     // Handle login logic here
     console.log("Logging in with", { username, password });
+    // Simulate successful login
+    if (username === "admin" && password === "password") {
+      navigate("/admin");
+    } else {
+      alert("Invalid credentials");
+    }
   };
 
   return (
