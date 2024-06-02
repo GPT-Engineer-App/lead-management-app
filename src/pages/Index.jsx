@@ -15,6 +15,8 @@ const Index = () => {
       navigate("/admin");
     } else if (username === "salesmanager" && password === "password123") {
       navigate("/sales-manager");
+    } else if (username === "sales" && password === "sales") {
+      navigate("/salesman");
     } else {
       alert("Invalid credentials");
     }
