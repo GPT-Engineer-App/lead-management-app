@@ -13,6 +13,8 @@ const Index = () => {
     // Simulate successful login
     if (username === "admin" && password === "password") {
       navigate("/admin");
+    } else if (username === "salesmanager" && password === "password123") {
+      navigate("/sales-manager");
     } else {
       alert("Invalid credentials");
     }
