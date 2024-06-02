@@ -37,7 +37,14 @@ const AdminDashboard = () => {
   const deleteUser = useDeleteUser();
 
   const handleAddUser = () => {
-    addUser.mutate(formData, {
+    const userData = {
+      username: formData.username,
+      email: formData.email,
+      role: formData.role,
+      password: formData.password, // Ensure password is included
+    };
+
+    addUser.mutate(userData, {
       onSuccess: () => {
         closeModal();
       },
