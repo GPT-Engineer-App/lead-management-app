@@ -87,3 +87,15 @@ export const useAddComment = () => {
         },
     });
 };
+
+// Function to test Supabase connection
+export const testSupabaseConnection = async () => {
+    try {
+        const { data, error } = await supabase.from('users').select('id').limit(1);
+        if (error) throw error;
+        return data.length > 0;
+    } catch (error) {
+        console.error("Supabase connection test failed:", error.message);
+        return false;
+    }
+};
