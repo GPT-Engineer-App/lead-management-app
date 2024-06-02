@@ -41,6 +41,10 @@ const AdminDashboard = () => {
       onSuccess: () => {
         closeModal();
       },
+      onError: (error) => {
+        console.error("Error adding user:", error);
+        alert("Failed to add user. Please try again.");
+      },
     });
   };
 
@@ -48,6 +52,10 @@ const AdminDashboard = () => {
     updateUser.mutate({ ...selectedUser, ...formData }, {
       onSuccess: () => {
         closeModal();
+      },
+      onError: (error) => {
+        console.error("Error updating user:", error);
+        alert("Failed to update user. Please try again.");
       },
     });
   };
