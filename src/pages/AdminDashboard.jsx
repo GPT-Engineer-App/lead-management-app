@@ -1,9 +1,60 @@
-import { Box, Flex, Heading, Text, VStack, HStack, Button, Avatar, IconButton, useColorModeValue, Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
+import { useState } from "react";
+import { useUsers, useAddUser, useUpdateUser, useDeleteUser } from "../integrations/supabase/index.js";
+import { Box, Flex, Heading, Text, VStack, HStack, Button, Avatar, IconButton, useColorModeValue, Menu, MenuButton, MenuList, MenuItem, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Select, Input } from "@chakra-ui/react";
 import { FaBell, FaCalendarAlt, FaChartBar, FaClipboardList, FaHome, FaUser, FaUsers, FaSignOutAlt, FaCog } from "react-icons/fa";
 
 const AdminDashboard = () => {
   const bg = useColorModeValue("gray.900", "gray.100");
   const color = useColorModeValue("white", "gray.800");
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalType, setModalType] = useState("add");
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [formData, setFormData] = useState({ username: "", email: "", role: "Salesperson" });
+
+  const openModal = (type, user = null) => {
+    setModalType(type);
+    setSelectedUser(user);
+    setFormData(user ? { username: user.username, email: user.email, role: user.role } : { username: "", email: "", role: "Salesperson" });
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedUser(null);
+    setFormData({ username: "", email: "", role: "Salesperson" });
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const { data: users, isLoading, error } = useUsers();
+
+  const addUser = useAddUser();
+  const updateUser = useUpdateUser();
+  const deleteUser = useDeleteUser();
+
+  const handleAddUser = () => {
+    addUser.mutate(formData, {
+      onSuccess: () => {
+        closeModal();
+      },
+    });
+  };
+
+  const handleUpdateUser = () => {
+    updateUser.mutate({ ...selectedUser, ...formData }, {
+      onSuccess: () => {
+        closeModal();
+      },
+    });
+  };
+
+  const handleDeleteUser = (userId) => {
+    deleteUser.mutate(userId);
+  };
 
   return (
     <Box bg={bg} color={color} minH="100vh">
@@ -44,7 +95,24 @@ const AdminDashboard = () => {
             </Box>
             <Box bg="gray.800" p={4} rounded="md" shadow="md" width="full">
               <Heading size="md">User Management</Heading>
-              <Text>[User List with Actions]</Text>
+              <Button colorScheme="blue" onClick={() => openModal("add")}>Add User</Button>
+              {isLoading ? (
+                <Text>Loading...</Text>
+              ) : error ? (
+                <Text>Error loading users</Text>
+              ) : (
+                <VStack spacing={4} mt={4}>
+                  {users.map((user) => (
+                    <Flex key={user.id} justifyContent="space-between" alignItems="center" width="full">
+                      <Text>{user.username} ({user.role})</Text>
+                      <HStack spacing={2}>
+                        <Button size="sm" onClick={() => openModal("edit", user)}>Edit</Button>
+                        <Button size="sm" colorScheme="red" onClick={() => handleDeleteUser(user.id)}>Delete</Button>
+                      </HStack>
+                    </Flex>
+                  ))}
+                </VStack>
+              )}
             </Box>
             <Box bg="gray.800" p={4} rounded="md" shadow="md" width="full">
               <Heading size="md">RV Inventory Management</Heading>
@@ -74,6 +142,38 @@ const AdminDashboard = () => {
         </HStack>
         <Text>&copy; 2023 RV Dealership. All rights reserved.</Text>
       </Flex>
+
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>{modalType === "add" ? "Add User" : "Edit User"}</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <FormControl>
+              <FormLabel>Username</FormLabel>
+              <Input name="username" value={formData.username} onChange={handleInputChange} />
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel>Email</FormLabel>
+              <Input name="email" value={formData.email} onChange={handleInputChange} />
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel>Role</FormLabel>
+              <Select name="role" value={formData.role} onChange={handleInputChange}>
+                <option value="Administrator">Administrator</option>
+                <option value="Sales Manager">Sales Manager</option>
+                <option value="Salesperson">Salesperson</option>
+              </Select>
+            </FormControl>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={modalType === "add" ? handleAddUser : handleUpdateUser}>
+              {modalType === "add" ? "Add" : "Update"}
+            </Button>
+            <Button variant="ghost" onClick={closeModal}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 };
