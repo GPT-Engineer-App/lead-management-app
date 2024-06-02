@@ -10,19 +10,19 @@ const AdminDashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState("add");
   const [selectedUser, setSelectedUser] = useState(null);
-  const [formData, setFormData] = useState({ username: "", email: "", role: "Salesperson" });
+  const [formData, setFormData] = useState({ username: "", email: "", role: "Salesperson", password: "" });
 
   const openModal = (type, user = null) => {
     setModalType(type);
     setSelectedUser(user);
-    setFormData(user ? { username: user.username, email: user.email, role: user.role } : { username: "", email: "", role: "Salesperson" });
+    setFormData(user ? { username: user.username, email: user.email, role: user.role, password: "" } : { username: "", email: "", role: "Salesperson", password: "" });
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedUser(null);
-    setFormData({ username: "", email: "", role: "Salesperson" });
+    setFormData({ username: "", email: "", role: "Salesperson", password: "" });
   };
 
   const handleInputChange = (e) => {
@@ -156,6 +156,10 @@ const AdminDashboard = () => {
             <FormControl mt={4}>
               <FormLabel>Email</FormLabel>
               <Input name="email" value={formData.email} onChange={handleInputChange} />
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel>Password</FormLabel>
+              <Input name="password" type="password" value={formData.password} onChange={handleInputChange} />
             </FormControl>
             <FormControl mt={4}>
               <FormLabel>Role</FormLabel>
