@@ -37,8 +37,10 @@ const AdminDashboard = () => {
   const deleteUser = useDeleteUser();
 
   const handleAddUser = () => {
+    console.log("Adding user with data:", formData); // Log the form data
     addUser.mutate(formData, {
       onSuccess: () => {
+        console.log("User added successfully");
         closeModal();
       },
       onError: (error) => {
