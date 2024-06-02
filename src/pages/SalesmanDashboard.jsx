@@ -1,14 +1,15 @@
-import { Box, Flex, Heading, Text, VStack, HStack, Button, Avatar, IconButton, useColorModeValue, Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
+import { Box, Flex, Heading, Text, VStack, HStack, Button, Avatar, IconButton, Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
 import { FaBell, FaCalendarAlt, FaChartBar, FaClipboardList, FaHome, FaUser, FaSignOutAlt, FaCog } from "react-icons/fa";
 
 const SalesmanDashboard = () => {
-  const bg = useColorModeValue("white", "gray.800");
-  const color = useColorModeValue("gray.800", "white");
-  const accentColor = useColorModeValue("green.500", "green.300");
+  const bgGradient = "linear(to-r, gray.700, black)";
+  const color = "white";
+  const accentColorGreen = "neonGreen";
+  const accentColorOrange = "neonOrange";
 
   return (
-    <Box bg={bg} color={color} minH="100vh">
-      <Flex as="header" bg={accentColor} color="white" p={4} justifyContent="space-between" alignItems="center">
+    <Box bgGradient={bgGradient} color={color} minH="100vh">
+      <Flex as="header" bg={accentColorGreen} color="white" p={4} justifyContent="space-between" alignItems="center" boxShadow="md">
         <HStack spacing={4}>
           <Avatar name="RV Dealership" src="/path-to-logo.png" />
           <Heading size="md">RV Dealership</Heading>
@@ -36,7 +37,7 @@ const SalesmanDashboard = () => {
         <Box flex="1" p={4}>
           <Heading size="lg" mb={4}>Personal Lead Management</Heading>
           <VStack spacing={4}>
-            <Box bg={accentColor} p={4} rounded="md" shadow="md" width="full">
+            <Box bg={accentColorOrange} p={4} rounded="md" shadow="md" width="full">
               <Heading size="md">Lead List</Heading>
               <Text>[Lead List with Actions]</Text>
             </Box>
@@ -46,7 +47,7 @@ const SalesmanDashboard = () => {
         <Box flex="1" p={4}>
           <Heading size="lg" mb={4}>Sales Metrics and Performance Tracking</Heading>
           <VStack spacing={4}>
-            <Box bg={accentColor} p={4} rounded="md" shadow="md" width="full">
+            <Box bg={accentColorOrange} p={4} rounded="md" shadow="md" width="full">
               <Heading size="md">Performance Metrics</Heading>
               <Text>[Charts and Graphs]</Text>
             </Box>
@@ -58,7 +59,7 @@ const SalesmanDashboard = () => {
         <Box flex="1" p={4}>
           <Heading size="lg" mb={4}>Calendar</Heading>
           <VStack spacing={4}>
-            <Box bg={accentColor} p={4} rounded="md" shadow="md" width="full">
+            <Box bg={accentColorOrange} p={4} rounded="md" shadow="md" width="full">
               <Heading size="md">Appointments and Tasks</Heading>
               <Text>[Monthly View]</Text>
             </Box>
@@ -68,7 +69,7 @@ const SalesmanDashboard = () => {
         <Box flex="1" p={4}>
           <Heading size="lg" mb={4}>New Lead Addition and Updating</Heading>
           <VStack spacing={4}>
-            <Box bg={accentColor} p={4} rounded="md" shadow="md" width="full">
+            <Box bg={accentColorOrange} p={4} rounded="md" shadow="md" width="full">
               <Heading size="md">Lead Forms</Heading>
               <Text>[Forms for Adding/Updating Leads]</Text>
             </Box>
@@ -80,7 +81,7 @@ const SalesmanDashboard = () => {
         <Box flex="1" p={4}>
           <Heading size="lg" mb={4}>Notification Center</Heading>
           <VStack spacing={4}>
-            <Box bg={accentColor} p={4} rounded="md" shadow="md" width="full">
+            <Box bg={accentColorOrange} p={4} rounded="md" shadow="md" width="full">
               <Heading size="md">Recent Notifications</Heading>
               <Text>[Notifications]</Text>
             </Box>
@@ -88,7 +89,7 @@ const SalesmanDashboard = () => {
         </Box>
       </Flex>
 
-      <Flex as="footer" bg={accentColor} color="white" p={4} justifyContent="space-between" alignItems="center">
+      <Flex as="footer" bg={accentColorGreen} color="white" p={4} justifyContent="space-between" alignItems="center" boxShadow="md">
         <HStack spacing={4}>
           <Button variant="link" colorScheme="whiteAlpha">Privacy Policy</Button>
           <Button variant="link" colorScheme="whiteAlpha">Terms of Service</Button>
