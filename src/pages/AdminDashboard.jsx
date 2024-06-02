@@ -107,18 +107,22 @@ const AdminDashboard = () => {
               {isLoading ? (
                 <Text>Loading...</Text>
               ) : error ? (
-                <Text>Error loading users</Text>
+                <Text>Error loading users: {error.message}</Text>
               ) : (
                 <VStack spacing={4} mt={4}>
-                  {users.map((user) => (
-                    <Flex key={user.id} justifyContent="space-between" alignItems="center" width="full">
-                      <Text>{user.username} ({user.role})</Text>
-                      <HStack spacing={2}>
-                        <Button size="sm" onClick={() => openModal("edit", user)}>Edit</Button>
-                        <Button size="sm" colorScheme="red" onClick={() => handleDeleteUser(user.id)}>Delete</Button>
-                      </HStack>
-                    </Flex>
-                  ))}
+                  {users && users.length > 0 ? (
+                    users.map((user) => (
+                      <Flex key={user.id} justifyContent="space-between" alignItems="center" width="full">
+                        <Text>{user.username} ({user.role})</Text>
+                        <HStack spacing={2}>
+                          <Button size="sm" onClick={() => openModal("edit", user)}>Edit</Button>
+                          <Button size="sm" colorScheme="red" onClick={() => handleDeleteUser(user.id)}>Delete</Button>
+                        </HStack>
+                      </Flex>
+                    ))
+                  ) : (
+                    <Text>No users found.</Text>
+                  )}
                 </VStack>
               )}
             </Box>
