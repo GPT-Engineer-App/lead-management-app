@@ -119,9 +119,9 @@ export const useAddComment = () => {
 // Function to add necessary users
 export const addNecessaryUsers = async () => {
     const users = [
-        { username: 'admin', password: 'adminpassword', role: 'Administrator' },
-        { username: 'salesmanager', password: 'salesmanagerpassword', role: 'Sales Manager' },
-        { username: 'salesperson', password: 'salespersonpassword', role: 'Salesperson' },
+        { username: 'admin', password: 'adminpassword', role: 'Administrator', role_id: '29240' },
+        { username: 'salesmanager', password: 'salesmanagerpassword', role: 'Sales Manager', role_id: '29241' },
+        { username: 'salesperson', password: 'salespersonpassword', role: 'Salesperson', role_id: '29242' },
     ];
 
     for (const user of users) {
