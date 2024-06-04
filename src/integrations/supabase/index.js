@@ -119,15 +119,48 @@ export const useAddComment = () => {
 // Function to add necessary users
 export const addNecessaryUsers = async () => {
     const users = [
-        { username: 'admin', password: 'adminpassword', role_id: '29240' },
-        { username: 'salesmanager', password: 'salesmanagerpassword', role_id: '29241' },
-        { username: 'salesperson', password: 'salespersonpassword', role_id: '29242' },
+        { username: 'admin', email: 'admin@example.com', password: 'adminpassword', role_id: '29240' },
+        { username: 'salesmanager', email: 'salesmanager@example.com', password: 'salesmanagerpassword', role_id: '29241' },
+        { username: 'salesperson', email: 'salesperson@example.com', password: 'salespersonpassword', role_id: '29242' },
     ];
 
     for (const user of users) {
         try {
-            await fromSupabase(supabase.from('users').insert([user]));
-            console.log(`User ${user.username} added successfully.`);
+            // Check if the user already exists
+            const { data: existingUser, error: fetchError } = await supabase
+                .from('users')
+                .select('*')
+                .eq('username', user.username)
+                .single();
+
+            if (fetchError && fetchError.code !== 'PGRST116') {
+                throw fetchError;
+            }
+
+            if (!existingUser) {
+                // Create the user if they do not exist
+                const { error: insertError } = await supabase.auth.signUp({
+                    email: user.email,
+                    password: user.password,
+                });
+
+                if (insertError) {
+                    throw insertError;
+                }
+
+                // Insert user details into the users table
+                const { error: userInsertError } = await supabase
+                    .from('users')
+                    .insert([{ username: user.username, email: user.email, role_id: user.role_id }]);
+
+                if (userInsertError) {
+                    throw userInsertError;
+                }
+
+                console.log(`User ${user.username} added successfully.`);
+            } else {
+                console.log(`User ${user.username} already exists.`);
+            }
         } catch (error) {
             console.error(`Error adding user ${user.username}:`, error.message);
         }
