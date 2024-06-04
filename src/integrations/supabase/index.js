@@ -119,14 +119,33 @@ export const useAddComment = () => {
 // Function to add necessary users
 export const addNecessaryUsers = async () => {
     const users = [
-        { username: 'admin', password: 'adminpassword', role_id: '29240' },
-        { username: 'salesmanager', password: 'salesmanagerpassword', role_id: '29241' },
-        { username: 'salesperson', password: 'salespersonpassword', role_id: '29242' },
+        { username: 'admin', email: 'admin@example.com', password: 'adminpassword', role: 'Administrator', role_id: '29240' },
+        { username: 'salesmanager', email: 'salesmanager@example.com', password: 'salesmanagerpassword', role: 'Sales Manager', role_id: '29241' },
+        { username: 'salesperson', email: 'salesperson@example.com', password: 'salespersonpassword', role: 'Salesperson', role_id: '29242' },
     ];
 
     for (const user of users) {
         try {
-            await fromSupabase(supabase.from('users').insert([user]));
+            // Check if the user already exists
+            const { data: existingUser, error: fetchError } = await supabase
+                .from('users')
+                .select('*')
+                .eq('username', user.username)
+                .single();
+
+            if (fetchError && fetchError.code !== 'PGRST116') {
+                throw fetchError;
+            }
+
+            if (existingUser) {
+                console.log(`User ${user.username} already exists.`);
+                continue;
+            }
+
+            // Create the user if it doesn't exist
+            const { error: insertError } = await supabase.from('users').insert([user]);
+            if (insertError) throw insertError;
+
             console.log(`User ${user.username} added successfully.`);
         } catch (error) {
             console.error(`Error adding user ${user.username}:`, error.message);
