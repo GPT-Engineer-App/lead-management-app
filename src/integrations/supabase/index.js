@@ -84,6 +84,34 @@ export const useDeleteUser = () => {
     });
 };
 
+// Retrieve a user by ID
+export const useUserById = (id) => useQuery({
+    queryKey: ['user', id],
+    queryFn: () => fromSupabase(supabase.from('users').select('*').eq('id', id).single()),
+});
+
+// Update a user by ID
+export const useUpdateUserById = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (updatedUser) => fromSupabase(supabase.from('users').update(updatedUser).eq('id', updatedUser.id)),
+        onSuccess: () => {
+            queryClient.invalidateQueries(['user', updatedUser.id]);
+        },
+    });
+};
+
+// Delete a user by ID
+export const useDeleteUserById = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (userId) => fromSupabase(supabase.from('users').delete().eq('id', userId)),
+        onSuccess: () => {
+            queryClient.invalidateQueries(['user', userId]);
+        },
+    });
+};
+
 // Hooks for Post table
 export const usePosts = () => useQuery({
     queryKey: ['posts'],
