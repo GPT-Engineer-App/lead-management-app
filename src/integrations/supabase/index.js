@@ -113,3 +113,24 @@ export const useAddComment = () => {
         },
     });
 };
+
+// Update the addNecessaryUsers function to include role IDs
+export const addNecessaryUsers = async () => {
+    const users = [
+        { username: 'admin', password: 'adminpassword', role_id: 29240 },
+        { username: 'salesmanager', password: 'salesmanagerpassword', role_id: 29241 },
+        { username: 'salesperson', password: 'salespersonpassword', role_id: 29242 },
+    ];
+
+    for (const user of users) {
+        try {
+            await fromSupabase(supabase.from('users').insert([user]));
+            console.log(`User ${user.username} added successfully.`);
+        } catch (error) {
+            console.error(`Error adding user ${user.username}:`, error.message);
+        }
+    }
+};
+
+// Call the function to add necessary users
+addNecessaryUsers();
