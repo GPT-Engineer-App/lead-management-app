@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 import { useQuery, useMutation, useQueryClient, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const supabaseUrl = 'https://jdxgdremrrjjyrxvfpwq.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkeGdkcmVtcnJqanlyeHZmcHdxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTcwODQ5ODAsImV4cCI6MjAzMjY2MDk4MH0.CMVGMxu5kMH1z9KAxE7HH6hrUdsCYjTF11eSQuJDDk0';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkeGdkcmVtcnJqanlyeHZmcHdxIiwicm9sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTcwODQ5ODAsImV4cCI6MjAzMjY2MDk4MH0.CMVGMxu5kMH1z9KAxE7HH6hrUdsCYjTF11eSQuJDDk0';
 const supabase = createClient(supabaseUrl, supabaseKey, {
   headers: {
     'Access-Control-Allow-Origin': '*',
@@ -29,6 +29,8 @@ User // table: users
     id: uuid
     username: string
     email: string
+    role: string
+    password: string
 
 Post // table: posts
     id: uuid
@@ -113,3 +115,24 @@ export const useAddComment = () => {
         },
     });
 };
+
+// Function to add necessary users
+export const addNecessaryUsers = async () => {
+    const users = [
+        { username: 'admin', password: 'adminpassword', role: 'Administrator' },
+        { username: 'salesmanager', password: 'salesmanagerpassword', role: 'Sales Manager' },
+        { username: 'salesperson', password: 'salespersonpassword', role: 'Salesperson' },
+    ];
+
+    for (const user of users) {
+        try {
+            await fromSupabase(supabase.from('users').insert([user]));
+            console.log(`User ${user.username} added successfully.`);
+        } catch (error) {
+            console.error(`Error adding user ${user.username}:`, error.message);
+        }
+    }
+};
+
+// Call the function to add necessary users
+addNecessaryUsers();
