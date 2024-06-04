@@ -155,3 +155,19 @@ export const addNecessaryUsers = async () => {
 
 // Call the function to add necessary users
 addNecessaryUsers();
+
+// Exporting all the necessary modules
+module.exports = { 
+    supabase, 
+    queryClient, 
+    SupabaseProvider, 
+    useUsers, 
+    useAddUser, 
+    useUpdateUser, 
+    useDeleteUser, 
+    usePosts, 
+    useAddPost, 
+    useComments, 
+    useAddComment, 
+    addNecessaryUsers 
+};

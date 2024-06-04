@@ -1,4 +1,5 @@
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import userRoutes from './routes/userRoutes';
 import Index from "./pages/Index.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
 import SalesManagerDashboard from "./pages/SalesManagerDashboard.jsx";
@@ -9,6 +10,7 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/api/users/*" element={userRoutes} />
         <Route exact path="/" element={<Index />} />
         <Route exact path="/admin" element={<AdminDashboard />} />
         <Route exact path="/sales-manager" element={<SalesManagerDashboard />} />
