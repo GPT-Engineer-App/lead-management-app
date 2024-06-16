@@ -9,7 +9,7 @@ const Home = () => {
   useEffect(() => {
     const token = localStorage.getItem("supabase.auth.token");
     if (!token) {
-      navigate("/");
+      navigate("/login");
     } else {
       setIsAuthenticated(true);
     }
@@ -18,7 +18,7 @@ const Home = () => {
   const handleLogout = () => {
     localStorage.removeItem("supabase.auth.token");
     setIsAuthenticated(false);
-    navigate("/");
+    navigate("/login");
   };
 
   if (!isAuthenticated) {
