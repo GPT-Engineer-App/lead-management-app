@@ -1,12 +1,14 @@
 import { Container, Text, VStack, Button, Input, Box, Flex, Heading, Link } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useMockAuth } from "../integrations/mock/index.js";
 
 const Index = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
+  const { login, logout } = useMockAuth();
 
   useEffect(() => {
     const token = localStorage.getItem("supabase.auth.token");
@@ -17,22 +19,8 @@ const Index = () => {
   }, [navigate]);
 
   const handleLogin = async () => {
-    const response = await fetch("https://jdxgdremrrjjyrxvfpwq.supabase.co/auth/v1/token?grant_type=password", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkeGdkcmVtcnJqanlyeHZmcHdxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTcwODQ5ODAsImV4cCI6MjAzMjY2MDk4MH0.CMVGMxu5kMH1z9KAxE7HH6hrUdsCYjTF11eSQuJDDk0"
-      },
-      body: JSON.stringify({
-        email: username,
-        password: password
-      })
-    });
-
-    const data = await response.json();
-
-    if (response.ok) {
-      localStorage.setItem("supabase.auth.token", data.access_token);
+    const success = await login(username, password);
+    if (success) {
       setIsAuthenticated(true);
       navigate("/home");
     } else {
@@ -41,7 +29,7 @@ const Index = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("supabase.auth.token");
+    logout();
     setIsAuthenticated(false);
     navigate("/");
   };

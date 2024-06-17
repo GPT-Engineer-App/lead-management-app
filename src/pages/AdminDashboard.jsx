@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useUsers, useAddUser, useUpdateUser, useDeleteUser } from "../integrations/supabase/index.js";
+import { useUsers, useAddUser, useUpdateUser, useDeleteUser } from "../integrations/mock/index.js";
 import { Box, Flex, Heading, Text, VStack, HStack, Button, Avatar, IconButton, useColorModeValue, Menu, MenuButton, MenuList, MenuItem, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Select, Input } from "@chakra-ui/react";
 import { FaBell, FaCalendarAlt, FaChartBar, FaClipboardList, FaHome, FaUser, FaUsers, FaSignOutAlt, FaCog } from "react-icons/fa";
 

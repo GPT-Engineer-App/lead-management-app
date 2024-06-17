@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
-import { SupabaseProvider } from "./integrations/supabase/index.js";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { MockAuthProvider, QueryClientProvider } from "./integrations/mock/index.js";
 
 const colors = {
   brand: {
@@ -17,9 +17,11 @@ const theme = extendTheme({ colors });
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
-      <SupabaseProvider>
-        <App />
-      </SupabaseProvider>
+      <MockAuthProvider>
+        <QueryClientProvider>
+          <App />
+        </QueryClientProvider>
+      </MockAuthProvider>
     </ChakraProvider>
   </React.StrictMode>
 );

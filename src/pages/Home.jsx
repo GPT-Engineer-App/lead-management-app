@@ -1,23 +1,20 @@
 import { Container, Flex, Heading, Text, Box, Link, Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useMockAuth } from "../integrations/mock/index.js";
 
 const Home = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { isAuthenticated, checkSession, logout } = useMockAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("supabase.auth.token");
-    if (!token) {
+    if (!checkSession()) {
       navigate("/");
-    } else {
-      setIsAuthenticated(true);
     }
-  }, [navigate]);
+  }, [checkSession, navigate]);
 
   const handleLogout = () => {
-    localStorage.removeItem("supabase.auth.token");
-    setIsAuthenticated(false);
+    logout();
     navigate("/");
   };
 
